@@ -13,10 +13,22 @@ class ProjectsController extends Controller
     return view('projects.index', compact('projects'));
   }
 
+  public function show($id)
+  {
+    $project = Project::findOrFail($id);
+    return view('projects.show', compact('project'));
+  }
+
   public function create()
   {
     $projects = Project::all();
     return view('projects.create');
+  }
+
+  public function edit($id)
+  {
+    $project = Project::findOrFail($id);
+    return view('projects.edit', compact('project'));
   }
 
   public function store()
@@ -27,12 +39,6 @@ class ProjectsController extends Controller
     $project -> save();
 
     return redirect('/projects');
-  }
-
-  public function edit($id)
-  {
-    $project = Project::findOrFail($id);
-    return view('projects.edit', compact('project'));
   }
 
   public function update($id)
