@@ -5,6 +5,16 @@
 
   <div class="content">
     {{ $project -> description }}
+
+    @if ($project -> tasks -> count())
+      <div>
+        <ul>
+          @foreach ($project -> tasks as $task)
+            <li>{{ $task -> description }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
   </div>
 
   <p>
