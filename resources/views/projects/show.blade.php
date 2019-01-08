@@ -3,11 +3,12 @@
 @section('content')
   <h1 class="title">{{ $project -> title }}</h1>
 
-  <div class="content">
+  {{-- <div class="content"> --}}
+  <div>
     {{ $project -> description }}
 
     @if ($project -> tasks -> count())
-      <div>
+      <div class="box">
         @foreach ($project -> tasks as $task)
           <form method="post" action="/tasks/{{ $task -> id }}">
             @method('patch')
@@ -26,6 +27,33 @@
         @endforeach
       </div>
     @endif
+
+    <form
+      class="box"
+      method="post"
+      action="/projects/{{ $project -> id }}/tasks"
+    >
+      @csrf
+
+      <div class="field">
+        <label class="label" for="description">New task</label>
+
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            name="description"
+            placeholder="New task"
+          >
+        </div>
+      </div>
+
+      <div class="field">
+        <button type="submit" class="button is-link">Add task</button>
+      </div>
+
+      @include('errors')
+    </form>
   </div>
 
   <p>
