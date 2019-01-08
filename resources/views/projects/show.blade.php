@@ -10,8 +10,12 @@
     @if ($project -> tasks -> count())
       <div class="box">
         @foreach ($project -> tasks as $task)
-          <form method="post" action="/tasks/{{ $task -> id }}">
-            @method('patch')
+          <form method="post" action="/completed-tasks/{{ $task -> id }}">
+            {{-- @method('patch') --}}
+            @if ($task -> completed)
+              @method('delete')
+            @endif
+
             @csrf
 
             <label class="checkbox {{ $task -> completed ? 'is-complete' : '' }}">
