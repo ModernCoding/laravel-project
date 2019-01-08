@@ -52,7 +52,7 @@
         <button type="submit" class="button is-link">Add task</button>
       </div>
 
-      @include('errors')
+      @include ('errors')
     </form>
   </div>
 
