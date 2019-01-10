@@ -9,7 +9,8 @@ class ProjectsController extends Controller
 {
   public function __construct()
   {
-    $this -> middleware('auth') -> except(['index','show']);
+    // $this -> middleware('auth') -> except(['index','show']);
+    $this -> middleware('auth');
   }
 
   public function index()
@@ -20,6 +21,8 @@ class ProjectsController extends Controller
 
   public function show(Project $project)
   {
+    // abort_unless($project -> owner_id === auth() -> id(), 403);
+    // $this -> authorize('access', $project);
     return view('projects.show', compact('project'));
   }
 
@@ -31,6 +34,7 @@ class ProjectsController extends Controller
 
   public function edit(Project $project)
   {
+    // $this -> authorize('access', $project);
     return view('projects.edit', compact('project'));
   }
 
@@ -50,12 +54,14 @@ class ProjectsController extends Controller
 
   public function update(Project $project)
   {
+    // $this ->authorize('access', $project);
     $project -> update(request(['title', 'description']));
     return redirect('/projects');
   }
 
   public function destroy(Project $project)
   {
+    // $this ->authorize('access', $project);
     $project -> delete();
     return redirect('/projects');
   }
