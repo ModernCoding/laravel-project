@@ -3,6 +3,7 @@
 @section('content')
   <h1 class="title">Edit project</h1>
 
+  {{-- Update form --}}
   <form method="post" action="/projects/{{ $project -> id }}">
     @method('patch')
     @csrf
@@ -34,8 +35,11 @@
         <button type="submit" class="button is-link">Update project</button>
       </div>
     </div>
+    
+    @include ('errors')
   </form>
 
+  {{-- Delete button --}}
   <form method="post" action="/projects/{{ $project -> id }}">
     @method('delete')
     @csrf

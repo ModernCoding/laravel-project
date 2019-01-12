@@ -23,4 +23,9 @@ class Project extends Model
       'description' => $request['description']
     ]);
   }
+
+  public function user()
+  {
+    $this -> belongsTo(User::class);
+  }
 }

@@ -16,7 +16,8 @@ class ProjectsController extends Controller
 
   public function index()
   {
-    $projects = Project::where('owner_id', auth() -> id()) -> get();
+    // $projects = Project::where('owner_id', auth() -> id()) -> get();
+    $projects = auth() -> user() -> projects;
     return view('projects.index', compact('projects'));
   }
 
@@ -41,13 +42,9 @@ class ProjectsController extends Controller
 
   public function store()
   {
-    $attributes = request() -> validate([
-      'title' => 'required | min:3 | max:255',
-      'description' => ['required', 'min:3']
-    ]);
-
-    $attributes['owner_id'] = auth() -> id();
-
+    $attributes = $this->validateProject();
+    $attributes['owner_id'] = auth()->id();
+    
     $project = Project::create($attributes);
 
     \Mail::to('cormorant.programming@gmail.com') -> send(
@@ -60,7 +57,7 @@ class ProjectsController extends Controller
   public function update(Project $project)
   {
     // $this ->authorize('access', $project);
-    $project -> update(request(['title', 'description']));
+    $project -> update($this -> validateProject());
     return redirect('/projects');
   }
 
@@ -69,5 +66,17 @@ class ProjectsController extends Controller
     // $this ->authorize('access', $project);
     $project -> delete();
     return redirect('/projects');
+  }
+
+  protected function validateProject()
+  {
+    return request()->validate([
+      'title' => 'required | min:3 | max:255',
+      'description' => ['required', 'min:3']
+    ]);
+
+    $attributes['owner_id'] = auth()->id();
+
+    return $attributes;
   }
 }
